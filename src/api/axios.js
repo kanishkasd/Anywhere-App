@@ -11,15 +11,25 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    console.log("Sending request:", config);
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
 // receive inteceptor
-axiosInstance.interceptors.response.use((res) => {
-  console.log("Receive response:", res);
-});
+axiosInstance.interceptors.response.use(
+  (res) => res,
+  async (error) => {
+    if (error.res?.status === 401) {
+      localStorage.removeItem("authToken");
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default axiosInstance;
