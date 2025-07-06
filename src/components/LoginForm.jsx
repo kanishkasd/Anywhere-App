@@ -23,10 +23,12 @@ const LoginForm = () => {
   };
   return (
     <>
-      <div className="login-container">
+      <div className="wrapper">
         <div className="leftSide">
           <nav className="navbar">
             <div className="logo">Anywhere app</div>
+
+            {/* navbar  */}
             <ul className="nav-links">
               <li>
                 <a href="#">Home</a>
@@ -36,6 +38,33 @@ const LoginForm = () => {
               </li>
             </ul>
           </nav>
+
+          <div className="login-container">
+            <h2 className="createAccount">
+              Create New Account <span className="dot">.</span>
+            </h2>
+            <p>
+              Already A member? <a href="#">Log In</a>
+            </p>
+            <form onSubmit={handleLogin}>
+              <input
+                type="text"
+                placeholder="username"
+                value={username}
+                onchange={(e) => setUsername(e.target.value)}
+                required
+              />
+
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </form>
+            {message && <p className="message">{message}</p>}
+          </div>
         </div>
       </div>
     </>
